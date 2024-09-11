@@ -1,0 +1,126 @@
+﻿<Window x:Class="ST10029256_PROG7312.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Municipal Services" Height="600" Width="900" WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize" SizeToContent="Manual">
+
+    <!-- Set Background Image to Fill Both Vertically and Horizontally -->
+    <Window.Background>
+        <ImageBrush ImageSource="Images/Background.jpg" Stretch="UniformToFill" AlignmentY="Bottom" AlignmentX="Center"/>
+    </Window.Background>
+
+    <Window.Resources>
+        <!-- Button Style with Gradient Background and 3D Hover Effect -->
+        <Style x:Key="BlueGradientButtonStyle" TargetType="Button">
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#56CCF2" Offset="0.0" />
+                        <GradientStop Color="#2F80ED" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Height" Value="150"/>
+            <Setter Property="Width" Value="241"/>
+            <Setter Property="Margin" Value="15"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="5" Opacity="0.3" ShadowDepth="3" Color="Black"/>
+                </Setter.Value>
+            </Setter>
+
+            <!-- Define Triggers for Hover and Click Animations -->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(ScaleTransform.ScaleX)" To="1.05" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(ScaleTransform.ScaleY)" To="1.05" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).(DropShadowEffect.ShadowDepth)" To="10" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).(DropShadowEffect.Opacity)" To="0.5" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).(DropShadowEffect.ShadowDepth)" To="3" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).(DropShadowEffect.Opacity)" To="0.3" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Title at the top, centered -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
+            <TextBlock Text="Municipal Services" FontSize="50" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            <TextBlock Text="Engage with Your Municipality" FontSize="22" Foreground="White" HorizontalAlignment="Center" Opacity="0.7" Margin="0,10,0,0"/>
+        </StackPanel>
+
+        <!-- Grid with 3 centered buttons -->
+        <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Report Issues Button -->
+            <Button Grid.Column="0" Style="{StaticResource BlueGradientButtonStyle}" Click="ReportIssues_Click" Margin="20,0,20,0">
+                <StackPanel>
+                    <TextBlock Text="🛠️" FontSize="40" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <TextBlock Text="Report Issues" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Local Events and Announcements Button -->
+            <Button Grid.Column="1" Style="{StaticResource BlueGradientButtonStyle}" Click="Events_Announcements_Click" Margin="20,0,20,0">
+                <StackPanel>
+                    <TextBlock Text="📅" FontSize="40" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <TextBlock Text="Events &amp; Announcements" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!-- Service Request Status Button -->
+            <Button Grid.Column="2" Style="{StaticResource BlueGradientButtonStyle}" Click="ServiceStatus_Click" Margin="20,0,20,0">
+                <StackPanel>
+                    <TextBlock Text="📊" FontSize="40" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <TextBlock Text="Service Status" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- Last button placed below first button with a fixed margin to the right -->
+        <Button Style="{StaticResource BlueGradientButtonStyle}" Click="ReportIssuesDisplay_Click" Margin="0,0,0,-400" >
+            <StackPanel>
+                <TextBlock Text="📋" FontSize="40" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock Text="Report Issues Display" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Button>
+
+        <!-- Frame for navigation if needed -->
+        <Frame x:Name="MainFrame" Grid.Row="3" NavigationUIVisibility="Hidden" Navigated="MainFrame_Navigated" />
+
+    </Grid>
+</Window>
