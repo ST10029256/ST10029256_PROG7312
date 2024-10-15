@@ -1,0 +1,128 @@
+﻿<UserControl x:Class="ST10029256_PROG7312.UserControls.EventsAndAnnouncements"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ST10029256_PROG7312.UserControls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="1000">
+
+    <UserControl.Background>
+        <ImageBrush ImageSource="pack://application:,,,/Images/CreateAnEventBackground.jpg" Stretch="UniformToFill" AlignmentY="Bottom" AlignmentX="Center"/>
+    </UserControl.Background>
+
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Back Button on the Left -->
+            <Button Grid.Row="0" Width="160" Height="40" Foreground="White" Cursor="Hand" HorizontalAlignment="Left" Margin="10,10,0,0" Click="BackBtn_Click">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#6C757D" Offset="0.0"/>
+                        <GradientStop Color="#343A40" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <TextBlock Text="Back to Main Menu" FontSize="16"/>
+            </Button>
+
+            <!-- Navigation Button on the Right -->
+            <Button x:Name="NavigateToDisplay" Content="Go to Display" Foreground="White" Width="160" Height="40" Click="NavigateToDisplay_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,7,0">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#6C757D" Offset="0.0"/>
+                        <GradientStop Color="#343A40" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+
+            <!-- Title Section -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,20">
+                <TextBlock Text="Create an Event" FontSize="42" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Enter event details below" FontSize="18" Foreground="White" Opacity="0.7" HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Form Section with Fade-In Animation -->
+            <Border Grid.Row="2" CornerRadius="15" Padding="30" Width="700" VerticalAlignment="Top" Margin="20,20,20,20">
+                <!-- Apply the WhiteBackground.jpg to the form section -->
+                <Border.Background>
+                    <ImageBrush ImageSource="pack://application:,,,/Images/WhiteBackground.jpg" Stretch="UniformToFill" AlignmentY="Center"/>
+                </Border.Background>
+
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3" BlurRadius="15" Opacity="0.3"/>
+                </Border.Effect>
+
+                <!-- Fade-In Animation for Form -->
+                <Border.RenderTransform>
+                    <TranslateTransform Y="50"/>
+                </Border.RenderTransform>
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Border.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(TranslateTransform.Y)" From="50" To="0" Duration="0:0:1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,10">
+                    <!-- Event Name -->
+                    <TextBlock Text="📅 Event Name" FontSize="14" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Left" Margin="0,0,0,5"/>
+                    <TextBox x:Name="EventNameTextBox" Width="600" Height="35" Padding="5" BorderBrush="#4CA1AF" BorderThickness="2" Margin="0,0,0,5" TextChanged="EventNameTextBox_TextChanged"/>
+                    <TextBlock x:Name="EventNameError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0,0,0,10"/>
+
+                    <!-- Category -->
+                    <TextBlock Text="📂 Category" FontSize="14" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Left" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="CategoryComboBox" Width="600" Height="35" BorderBrush="#4CA1AF" BorderThickness="2" Padding="5" Margin="0,0,0,5" SelectionChanged="CategoryComboBox_SelectionChanged"/>
+                    <TextBlock x:Name="CategoryError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0,0,0,10"/>
+
+                    <!-- Event Date -->
+                    <TextBlock Text="📅 Event Date" FontSize="14" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Left" Margin="0,0,0,5"/>
+                    <DatePicker x:Name="EventDatePicker" Width="600" Height="35" BorderBrush="#4CA1AF" BorderThickness="2" Padding="5" Margin="0,0,0,5" SelectedDateChanged="EventDatePicker_SelectedDateChanged"/>
+                    <TextBlock x:Name="EventDateError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0,0,0,10"/>
+
+                    <!-- Location -->
+                    <TextBlock Text="📍 Location" FontSize="14" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Left" Margin="0,0,0,5"/>
+                    <TextBox x:Name="LocationTextBox" Width="600" Height="35" Padding="5" BorderBrush="#4CA1AF" BorderThickness="2" Margin="0,0,0,5" TextChanged="LocationTextBox_TextChanged"/>
+                    <TextBlock x:Name="LocationError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0,0,0,10"/>
+
+                    <!-- Description -->
+                    <TextBlock Text="📝 Description" FontSize="14" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Left" Margin="0,0,0,5"/>
+                    <RichTextBox x:Name="DescriptionRichTextBox" Width="600" Height="120" Padding="5" BorderBrush="#4CA1AF" BorderThickness="2" Margin="0,0,0,5" TextChanged="DescriptionRichTextBox_TextChanged"/>
+                    <TextBlock x:Name="DescriptionError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0,0,0,10"/>
+
+                    <!-- Media Attachment Button and Submit Button Section -->
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Width="40" Height="40" Foreground="White" Cursor="Hand" Click="AttachMedia_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Column="0" Margin="0,0,0,0">
+                            <TextBlock Text="📎" FontSize="24"/>
+                        </Button>
+
+                        <WrapPanel x:Name="ImagePanel" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" ItemWidth="100" ItemHeight="100" MaxWidth="420"/>
+
+                        <Button Width="91" Height="40" Foreground="White" Cursor="Hand" Click="SubmitButton_Click" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="2" Margin="0,0,0,0">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#28A745" Offset="0.0"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <TextBlock Text="🚀 Submit" FontSize="16"/>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

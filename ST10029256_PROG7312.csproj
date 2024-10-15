@@ -58,18 +58,42 @@
     <Compile Include="CelebrationWindow.xaml.cs">
       <DependentUpon>CelebrationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CelebrationWindow2.xaml.cs">
+      <DependentUpon>CelebrationWindow2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\FileIconConverter.cs" />
     <Compile Include="Classes\FileNameConverter.cs" />
     <Compile Include="Classes\FileTypeToImageConverter.cs" />
+    <Compile Include="Classes\LocalEvent.cs" />
+    <Compile Include="Classes\ObservableCollectionExtensions.cs" />
     <Compile Include="Classes\ReportIssue.cs" />
+    <Compile Include="EventsAndAnnouncements.xaml.cs">
+      <DependentUpon>EventsAndAnnouncements.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EventsAndAnnouncementsDisplay.xaml.cs">
+      <DependentUpon>EventsAndAnnouncementsDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReportIssues.xaml.cs">
       <DependentUpon>ReportIssues.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Validation.cs" />
     <Compile Include="ReportIssuesDisplay.xaml.cs">
       <DependentUpon>ReportIssuesDisplay.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Validation.cs" />
+    <Compile Include="ViewModels\EventsViewModel.cs" />
     <Page Include="CelebrationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CelebrationWindow2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EventsAndAnnouncements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EventsAndAnnouncementsDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,9 +145,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Background.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\pdf.png" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +158,27 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\SuccessBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ReportBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ReportDisplayBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CreateAnEventBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CreateAnEventDisplayBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WhiteBackground.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

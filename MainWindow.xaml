@@ -111,16 +111,7 @@
             </Button>
         </Grid>
 
-        <!-- Last button placed below first button with a fixed margin to the right -->
-        <Button Style="{StaticResource BlueGradientButtonStyle}" Click="ReportIssuesDisplay_Click" Margin="0,0,0,-400" >
-            <StackPanel>
-                <TextBlock Text="📋" FontSize="40" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                <TextBlock Text="Report Issues Display" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Button>
-
-        <!-- Frame for navigation if needed -->
-        <Frame x:Name="MainFrame" Grid.Row="3" NavigationUIVisibility="Hidden" Navigated="MainFrame_Navigated" />
-
+        <!-- Frame for navigation -->
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="2" />
     </Grid>
 </Window>

@@ -1,9 +1,14 @@
-﻿<Application x:Class="ST10029256_PROG7312.App"
+﻿<!-- App.xaml -->
+<Application x:Class="ST10029256_PROG7312.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ST10029256_PROG7312"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <!-- Global TextBlock Style with FontAwesome Font -->
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="pack://application:,,,/ST10029256_PROG7312;component/Fonts/#FontAwesome"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

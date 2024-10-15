@@ -1,51 +1,67 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq; 
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ST10029256_PROG7312
 {
     /// <summary>
-    /// This class displays the list of submitted reports.
-    /// It receives a list of stored reports and populates a ListView with them.
+    /// Interaction logic for ReportIssuesDisplay.xaml
     /// </summary>
     public partial class ReportIssuesDisplay : UserControl
     {
-        // This list holds the reports passed to this control.
-        private List<ReportIssue> reportIssues;
+
+        private List<ReportIssue> reportIssues; // List to hold the reports
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Constructor for the ReportIssuesDisplay.
-        /// Initializes the component and loads the passed-in reports.
+        /// Initializes the ReportIssuesDisplay and loads the stored reports.
         /// </summary>
         public ReportIssuesDisplay(List<ReportIssue> storedReports)
         {
-            InitializeComponent(); // Initialize the UserControl components
+            InitializeComponent();
             reportIssues = storedReports; // Assign the list of reports to the local field
-            LoadReports(); // Load the reports into the ListView
+            LoadReports(); // Load the reports into the ItemsControl
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// This method binds the report list to the ListView to display all submitted reports.
+        /// Loads and binds the reports to the ItemsControl, or displays a "No Reports" message if none exist.
         /// </summary>
         private void LoadReports()
         {
-            // Bind the report list to the ListView to show the reports in the UI
-            ReportsListView.ItemsSource = reportIssues;
+            // Check if there are any reports
+            var hasReports = reportIssues?.Any() ?? false;
+
+            if (hasReports)
+            {
+                // If there are reports, bind the list to the ItemsControl
+                ReportsListView.ItemsSource = reportIssues;
+                NoReportsMessage.Visibility = Visibility.Collapsed; // Hide "No Reports" message
+            }
+            else
+            {
+                // If no reports, clear the ItemsControl and show the "No Reports" message
+                ReportsListView.ItemsSource = null; // Clear the ItemsSource
+                NoReportsMessage.Visibility = Visibility.Visible; // Show "No Reports" message
+            }
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Event handler for the back button click.
-        /// This hides the current form and returns the user to the previous screen.
+        /// Event handler for the "Back to Report" button to navigate back to the ReportIssues page.
         /// </summary>
-        private void BackBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Hide this UserControl and return to the previous view
-            this.Visibility = System.Windows.Visibility.Collapsed;
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            if (mainWindow != null)
+            {
+                mainWindow.MainFrame.Content = new ReportIssues(reportIssues); // Navigate back
+            }
         }
     }
 }//------------------------------------------------------------------ENF OF FILE----------------------------------------------------------------------//

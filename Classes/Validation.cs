@@ -1,10 +1,11 @@
-﻿using System;
+﻿// Validation.cs
+using System;
 
 namespace ST10029256_PROG7312
 {
     /// <summary>
-    /// This class provides validation methods for report issue forms.
-    /// It checks if the location, category, and issue description fields are properly filled.
+    /// This class provides validation methods for report issue forms and event forms.
+    /// It checks if the fields are properly filled.
     /// </summary>
     public class Validation
     {
@@ -16,7 +17,7 @@ namespace ST10029256_PROG7312
             // Return true if the location is not null or empty (after trimming white spaces)
             return !string.IsNullOrWhiteSpace(location);
         }
-        
+
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace ST10029256_PROG7312
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Validates all fields of the report form. 
+        /// Validates all fields of the report form.
         /// This method checks location, category, and issue description, and provides an error message if validation fails.
         /// </summary>
         public bool ValidateAllFields(string location, int categoryIndex, string issueDescription, out string errorMessage)
@@ -77,5 +78,46 @@ namespace ST10029256_PROG7312
             // If all validations pass, return true
             return true;
         }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        // New validation methods for Events and Announcements form
+
+        /// <summary>
+        /// Validates if a text field is not empty or consists only of white space.
+        /// </summary>
+        public bool ValidateTextField(string text)
+        {
+            // Return true if the text is not null or empty (after trimming white spaces)
+            return !string.IsNullOrWhiteSpace(text);
+        }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        /// <summary>
+        /// Validates if the date is selected and not in the past.
+        /// </summary>
+        public bool ValidateEventDate(DateTime? selectedDate)
+        {
+            // Return true if event date is selected and is today or in the future
+            return selectedDate.HasValue && selectedDate.Value.Date >= DateTime.Now.Date;
+        }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        /// <summary>
+        /// Validates if the description is not empty and contains fewer than 200 words.
+        /// </summary>
+        public bool ValidateDescription(string description)
+        {
+            // Split the description into words, ignoring empty entries (newlines, spaces)
+            var words = description.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Return true if the description is not empty and contains 200 words or fewer
+            return !string.IsNullOrWhiteSpace(description) && words.Length <= 50;
+        }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
     }
-}//------------------------------------------------------------------ENF OF FILE----------------------------------------------------------------------//
+}
+//------------------------------------------------------------------END OF FILE----------------------------------------------------------------------//
