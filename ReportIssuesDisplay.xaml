@@ -17,43 +17,47 @@
         <ImageBrush ImageSource="pack://application:,,,/Images/ReportDisplayBackground.jpg" Stretch="UniformToFill"/>
     </UserControl.Background>
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" PanningMode="VerticalOnly">
+        <Grid Margin="20" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <!-- Back Button -->
-        <Button Grid.Row="0" Width="160" Height="40" Foreground="White" Cursor="Hand" 
-                HorizontalAlignment="Left" Margin="0,0,0,10" Click="BackBtn_Click">
-            <Button.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#6C757D" Offset="0.0"/>
-                    <GradientStop Color="#343A40" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Button.Background>
-            <TextBlock Text="Back to Report" FontSize="16"/>
-        </Button>
+            <!-- Back Button -->
+            <Button Grid.Row="0" Width="160" Height="40" Foreground="White" Cursor="Hand" 
+                    HorizontalAlignment="Left" Margin="0,0,0,10" Click="BackBtn_Click">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#6C757D" Offset="0.0"/>
+                        <GradientStop Color="#343A40" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <TextBlock Text="Back to Report" FontSize="16"/>
+            </Button>
 
-        <!-- Title Section -->
-        <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,30">
-            <TextBlock Text="Submitted Reports Display" FontSize="34" FontWeight="Bold" 
-                       Foreground="White" HorizontalAlignment="Center"/>
-            <TextBlock Text="View the reports submitted to the municipality" FontSize="16" 
-                       Foreground="White" HorizontalAlignment="Center" Opacity="0.9"/>
-        </StackPanel>
+            <!-- Title Section -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,30">
+                <TextBlock Text="Submitted Reports Display" FontSize="34" FontWeight="Bold" 
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="View the reports submitted to the municipality" FontSize="16" 
+                           Foreground="White" HorizontalAlignment="Center" Opacity="0.9"/>
+            </StackPanel>
 
-        <!-- Reports List Section -->
-        <Grid Grid.Row="2">
-            <ScrollViewer VerticalScrollBarVisibility="Hidden"  HorizontalScrollBarVisibility="Auto">
-                <ItemsControl x:Name="ReportsListView" ItemsSource="{Binding}" HorizontalContentAlignment="Center">
+            <!-- Reports List Section -->
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly">
+                <ItemsControl x:Name="ReportsListView" ItemsSource="{Binding}" HorizontalAlignment="Stretch">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <!-- Animated Border for Each Report -->
-                            <Border Padding="20" Margin="10,0,10,20" 
-                                    CornerRadius="12" BorderBrush="#dddddd" BorderThickness="1">
-
+                            <Border Padding="15" Margin="10,0,10,20"
+                        CornerRadius="20" BorderBrush="#dddddd" BorderThickness="1"
+                        HorizontalAlignment="Stretch">
                                 <!-- Background Image -->
                                 <Border.Background>
                                     <ImageBrush ImageSource="pack://application:,,,/Images/WhiteBackground.jpg" Stretch="UniformToFill"/>
@@ -64,48 +68,30 @@
                                     <DropShadowEffect ShadowDepth="5" BlurRadius="10" Opacity="0.3"/>
                                 </Border.Effect>
 
-                                <!-- Fade-In and Translate Animation -->
-                                <Border.RenderTransform>
-                                    <TranslateTransform Y="50"/>
-                                </Border.RenderTransform>
-                                <Border.Triggers>
-                                    <EventTrigger RoutedEvent="Border.Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <!-- Fade-In Effect -->
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1"/>
-                                                <!-- Slide-In from Bottom -->
-                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(TranslateTransform.Y)"
-                                                                 From="50" To="0" Duration="0:0:1"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Border.Triggers>
-
                                 <!-- Report Content -->
-                                <StackPanel HorizontalAlignment="Center">
+                                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
 
                                     <!-- Location Section -->
                                     <TextBlock Text="📍 Location: " FontWeight="Bold" Foreground="#333" FontSize="20" 
-                                               HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"/>
                                     <TextBlock Text="{Binding Location}" Foreground="#333" FontSize="18" 
-                                               HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                   HorizontalAlignment="Center" Margin="0,0,0,10"/>
 
                                     <!-- Category Section -->
                                     <TextBlock Text="📂 Category: " FontWeight="Bold" Foreground="#333" FontSize="20" 
-                                               HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"/>
                                     <TextBlock Text="{Binding Category}" Foreground="#666" FontSize="18" 
-                                               HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                   HorizontalAlignment="Center" Margin="0,0,0,10"/>
 
                                     <!-- Issue Description Section -->
                                     <TextBlock Text="📝 Issue Description:" FontWeight="Bold" Foreground="#333" FontSize="20" 
-                                               HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"/>
                                     <TextBlock Text="{Binding IssueDescription}" Foreground="#666" FontSize="18" 
-                                               TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                   TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,10"/>
 
                                     <!-- Attachments Section -->
                                     <TextBlock Text="📎 Attachments:" FontWeight="Bold" Foreground="#333" FontSize="20" 
-                                               HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                   HorizontalAlignment="Center" Margin="0,0,0,10"/>
                                     <ItemsControl ItemsSource="{Binding Attachments}" HorizontalAlignment="Center">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -115,12 +101,12 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Vertical" Margin="5" HorizontalAlignment="Center">
-                                                    <!-- Display the actual image or fallback icon, with smaller size -->
+                                                    <!-- File Icon or Image -->
                                                     <Image Width="70" Height="70" Stretch="Uniform" 
-                                                           Source="{Binding Converter={StaticResource FileTypeToImageConverter}}"/>
-                                                    <!-- Display only the file name using FileNameConverter -->
+                                               Source="{Binding Converter={StaticResource FileTypeToImageConverter}}"/>
+                                                    <!-- Display only the file name -->
                                                     <TextBlock Text="{Binding Converter={StaticResource FileNameConverter}}" 
-                                                               TextAlignment="Center" Margin="10,0,0,0"/>
+                                                   TextAlignment="Center" Margin="10,0,0,0"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -135,5 +121,5 @@
                        FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" 
                        Visibility="Collapsed"/>
         </Grid>
-    </Grid>
+    </ScrollViewer>
 </UserControl>
