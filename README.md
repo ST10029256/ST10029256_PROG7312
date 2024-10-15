@@ -130,5 +130,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 For any questions or support regarding this project, feel free to reach out to:
 
 **Dylan Louis Miller**  
-Email: dylanmiller424@gmail.com  
+Email: st10029256@vcconnect.edu.za 
 Student ID: ST10029256
