@@ -73,17 +73,17 @@
 
     <Grid>
         <!-- Title at the top, centered -->
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
             <TextBlock Text="Municipal Services" FontSize="50" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"/>
             <TextBlock Text="Engage with Your Municipality" FontSize="22" Foreground="White" HorizontalAlignment="Center" Opacity="0.7" Margin="0,10,0,0"/>
         </StackPanel>
 
-        <!-- Grid with 3 centered buttons -->
-        <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
+        <!-- Centered Buttons -->
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <!-- Report Issues Button -->
@@ -111,7 +111,7 @@
             </Button>
         </Grid>
 
-        <!-- Frame for navigation -->
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="2" />
+        <!-- Frame for Navigation (full overlay) -->
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Background="White" Visibility="Collapsed"/>
     </Grid>
 </Window>

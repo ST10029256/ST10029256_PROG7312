@@ -9,6 +9,8 @@ using System.Windows.Documents;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using ST10029256_PROG7312.ViewModels;
+using System.Collections.ObjectModel;
+using System.Net.Mail;
 
 namespace ST10029256_PROG7312.UserControls
 {
@@ -21,7 +23,7 @@ namespace ST10029256_PROG7312.UserControls
         private MainWindow _mainWindow;
 
         // List to store file attachments (paths) for the event
-        private List<string> _attachments = new List<string>();
+        private ObservableCollection<string> _attachments = new ObservableCollection<string>();
 
         // Queue for managing multiple event submissions
         private Queue<LocalEvent> _eventQueue;
@@ -109,7 +111,7 @@ namespace ST10029256_PROG7312.UserControls
                 Date = eventDate.Value, // Set event date (validated to not be null)
                 Location = location,
                 Description = description,
-                Attachments = new List<string>(_attachments) // Copy attachments from the list
+                Attachments = new ObservableCollection<string>(_attachments)
             };
 
             // Add the event to the submission queue

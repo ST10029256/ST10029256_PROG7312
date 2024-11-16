@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="ST10029256_PROG7312.EditRequest"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ST10029256_PROG7312.UserControls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="500">
+
+    <UserControl.Background>
+        <ImageBrush ImageSource="pack://application:,,,/Images/EditPage.jpg" Stretch="UniformToFill" AlignmentY="Bottom" AlignmentX="Center"/>
+    </UserControl.Background>
+
+    <Grid Margin="20">
+        <!-- Back Button -->
+        <Button Width="180" Height="40" Foreground="White" Cursor="Hand" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Click="BackBtn_Click">
+            <Button.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#6C757D" Offset="0.0"/>
+                    <GradientStop Color="#343A40" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Button.Background>
+            <TextBlock Text="Back to Service Requests" FontSize="16"/>
+        </Button>
+
+        <!-- Background Border with Shadow, Animation, and Background Image -->
+        <Border CornerRadius="15" Padding="30" Width="460" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Border.Background>
+                <ImageBrush ImageSource="Images/WhiteBackground.jpg" Stretch="UniformToFill" AlignmentY="Bottom" AlignmentX="Center"/>
+            </Border.Background>
+
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="5" BlurRadius="20" Opacity="0.4"/>
+            </Border.Effect>
+
+            <!-- Fade-In Animation for Border -->
+            <Border.RenderTransform>
+                <TranslateTransform Y="30"/>
+            </Border.RenderTransform>
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="Border.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1"/>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(TranslateTransform.Y)"
+                                             From="30" To="0" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+
+            <!-- Form Content -->
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,10">
+                <!-- Title -->
+                <TextBlock Text="Edit Request Status" FontSize="26" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Center" Margin="0,10,0,20"/>
+
+                <!-- Status Dropdown -->
+                <TextBlock Text="📋 Status" FontSize="14" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Left" Margin="0,0,0,5"/>
+                <ComboBox x:Name="StatusComboBox" Width="400" Height="35" BorderBrush="#4CA1AF" BorderThickness="2" Padding="5">
+                    <ComboBoxItem Content="Pending"/>
+                    <ComboBoxItem Content="In Progress"/>
+                    <ComboBoxItem Content="Completed"/>
+                </ComboBox>
+
+                <!-- Completion Description -->
+                <TextBlock Text="📝 Completion Description" FontSize="14" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Left" Margin="0,20,0,5"/>
+                <TextBox x:Name="CompletionDescriptionTextBox" Width="400" Height="100" TextWrapping="Wrap" AcceptsReturn="True" Padding="5"
+                         BorderBrush="#4CA1AF" BorderThickness="2"/>
+
+                <!-- Save Button -->
+                <Button Content="💾 Save Changes" Width="150" Height="40" Foreground="White" FontWeight="Bold" FontSize="16" 
+                        Margin="0,20,0,0" HorizontalAlignment="Center" Click="SaveChanges_Click">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#28A745" Offset="0.0"/>
+                            <GradientStop Color="#218838" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="3" Color="Black" Opacity="0.3"/>
+                    </Button.Effect>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,322 +1,267 @@
-﻿using Microsoft.Win32; 
+﻿using Microsoft.Win32;
+using ST10029256_PROG7312.Classes;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel; 
+using System.IO; 
 using System.Linq; 
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media.Imaging; 
+using System.Windows.Controls; 
+using System.Windows.Documents; 
+using System.Windows.Media.Imaging;
 
 namespace ST10029256_PROG7312
 {
+    /// <summary>
+    /// ReportIssues UserControl manages the creation and submission of issue reports,
+    /// media attachment, and validation of form fields.
+    /// </summary>
     public partial class ReportIssues : UserControl
     {
-        /// <summary>
-        /// Stores the list of submitted reports.
-        /// </summary>
-        private readonly List<ReportIssue> reportIssues;
+        private ObservableCollection<ReportIssue> reportIssues; // Stores the collection of reports
+        private readonly ObservableCollection<string> attachments = new ObservableCollection<string>(); // Stores file paths of attachments
+        private static int reportCounter = 1; // Counter to generate unique request IDs
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Stores file attachments temporarily before submitting a report.
+        /// Initializes the ReportIssues UserControl with a collection of reports.
         /// </summary>
-        private readonly List<string> attachments = new List<string>();
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------//
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReportIssues"/> class and sets the list of stored reports.
-        /// </summary>
-        /// <param name="storedReports">A list of reports that have been submitted previously.</param>
-        public ReportIssues(List<ReportIssue> storedReports)
+        /// <param name="reports">Collection of existing reports.</param>
+        public ReportIssues(ObservableCollection<ReportIssue> reports)
         {
-            InitializeComponent(); // Initialize UI components
-            reportIssues = storedReports; // Set the list of stored reports
+            InitializeComponent(); // Initialize the component
+            reportIssues = reports ?? new ObservableCollection<ReportIssue>(); // Assign the collection or create a new one
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Event handler for the back button to navigate back to the main menu.
+        /// Navigates back to the main page by clearing the frame content.
         /// </summary>
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Reference the main window to control its navigation
-            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var mainWindow = Application.Current.MainWindow as MainWindow; // Get the main window instance
             if (mainWindow != null)
             {
-                // Set the MainFrame content to null (clears the frame)
-                mainWindow.MainFrame.Content = null;
-                // Hide the MainFrame
-                mainWindow.MainFrame.Visibility = Visibility.Collapsed;
+                mainWindow.MainFrame.Content = null; // Clear the content of the main frame
+                mainWindow.MainFrame.Visibility = Visibility.Collapsed; // Hide the main frame
             }
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Event handler for navigating to the display screen that shows submitted reports.
+        /// Navigates to the ReportIssuesDisplay page to view the list of reports.
         /// </summary>
         private void NavigateToDisplay_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var mainWindow = Application.Current.MainWindow as MainWindow; // Get the main window instance
             if (mainWindow != null)
             {
-                // Navigate to the report display screen, passing the stored reports list
-                mainWindow.MainFrame.Content = new ReportIssuesDisplay(reportIssues);
+                var reportIssuesDisplayPage = new ReportIssuesDisplay(reportIssues); // Create a new display page
+                mainWindow.MainFrame.Content = reportIssuesDisplayPage; // Set the content to display page
             }
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Opens a file dialog for attaching images or documents to a report.
+        /// Opens a file dialog for attaching media files and adds them to the attachments list.
         /// </summary>
         private void AttachMedia_Click(object sender, RoutedEventArgs e)
         {
-            // Configure the OpenFileDialog for image and document files
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Image and Document files (*.jpg, *.jpeg, *.png, *.pdf, *.docx, *.txt) | *.jpg; *.jpeg; *.png; *.pdf; *.docx; *.txt", // Supported file types
-                Multiselect = true // Allows multiple files to be selected
+                Filter = "Image and Document files (*.jpg, *.jpeg, *.png, *.pdf, *.docx, *.txt) | *.jpg; *.jpeg; *.png; *.pdf; *.docx; *.txt", // Filter for allowed file types
+                Multiselect = true // Enable selecting multiple files
             };
 
-            // Open the file dialog and check if the user selected files
-            if (openFileDialog.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == true) // Check if the dialog result is OK
             {
-                // Add the selected file paths to the attachments list
-                attachments.AddRange(openFileDialog.FileNames);
-
-                // Loop through the selected files
-                foreach (string fileName in openFileDialog.FileNames)
+                foreach (var fileName in openFileDialog.FileNames) // Iterate through selected files
                 {
-                    // Determine the icon to use based on the file extension
-                    var iconImage = GetIconForFileExtension(Path.GetExtension(fileName).ToLower());
-
-                    // Create a StackPanel to display the icon and file name
-                    var docPanel = new StackPanel
+                    if (File.Exists(fileName)) // Check if file exists
                     {
-                        Orientation = Orientation.Vertical, // Arrange items vertically
-                        Margin = new Thickness(5), // Add some margin
-                        HorizontalAlignment = HorizontalAlignment.Left // Align to the left
-                    };
-
-                    // Create an Image control for the file icon
-                    var documentIcon = new Image
+                        attachments.Add(fileName); // Add the file to the attachments list
+                    }
+                    else
                     {
-                        Width = 50, // Set icon width
-                        Height = 50, // Set icon height
-                        Source = iconImage, // Set the image source to the file icon
-                        Margin = new Thickness(5) // Add some margin around the icon
-                    };
-
-                    // Create a TextBlock for the file name
-                    var docName = new TextBlock
-                    {
-                        Text = Path.GetFileName(fileName), // Display the file name only
-                        Width = 100, // Set a fixed width
-                        TextAlignment = TextAlignment.Center, // Center-align the text
-                        TextWrapping = TextWrapping.Wrap // Wrap long file names
-                    };
-
-                    // Add the icon and file name to the StackPanel
-                    docPanel.Children.Add(documentIcon);
-                    docPanel.Children.Add(docName);
-
-                    // Add the StackPanel to the form's image panel for display
-                    ImagePanel.Children.Add(docPanel);
+                        MessageBox.Show($"File not found: {fileName}", "Attachment Error", MessageBoxButton.OK, MessageBoxImage.Warning); // Show error if file not found
+                    }
                 }
-
-                // Update the progress bar and engagement label
-                UpdateProgress();
+                DisplayAttachments(); // Refresh the attachment display
+                UpdateProgress(); // Update progress bar
             }
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Returns an icon based on the file extension.
+        /// Displays the list of attached files in the ImagePanel with appropriate icons.
         /// </summary>
-        /// <param name="fileExtension">The file extension (e.g., ".pdf").</param>
-        /// <returns>A <see cref="BitmapImage"/> representing the file type icon.</returns>
+        private void DisplayAttachments()
+        {
+            ImagePanel.Children.Clear(); // Clear existing attachment display
+            foreach (string fileName in attachments) // Iterate through the attachments
+            {
+                var iconImage = GetIconForFileExtension(Path.GetExtension(fileName).ToLower()); // Get the icon based on file type
+
+                var docPanel = new StackPanel
+                {
+                    Orientation = Orientation.Vertical, // Arrange items vertically
+                    Margin = new Thickness(5),
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+
+                var documentIcon = new Image
+                {
+                    Width = 50, // Set icon size
+                    Height = 50,
+                    Source = iconImage, // Set the icon image source
+                    Margin = new Thickness(5)
+                };
+
+                var docName = new TextBlock
+                {
+                    Text = Path.GetFileName(fileName), // Display the file name
+                    Width = 100,
+                    TextAlignment = TextAlignment.Center,
+                    TextWrapping = TextWrapping.Wrap
+                };
+
+                docPanel.Children.Add(documentIcon); // Add icon to panel
+                docPanel.Children.Add(docName); // Add file name to panel
+                ImagePanel.Children.Add(docPanel); // Add panel to the ImagePanel
+            }
+        }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        /// <summary>
+        /// Retrieves an icon image for the given file extension.
+        /// </summary>
+        /// <param name="fileExtension">The file extension.</param>
+        /// <returns>BitmapImage of the file icon.</returns>
         private BitmapImage GetIconForFileExtension(string fileExtension)
         {
-            // Determine the correct icon based on the file extension
-            string iconUri;
+            string iconUri; // Icon URI based on file type
             switch (fileExtension)
             {
                 case ".pdf":
-                    iconUri = "pack://application:,,,/Images/pdf.png"; // PDF icon
+                    iconUri = "pack://application:,,,/Images/pdf.png"; // Icon for PDF files
                     break;
                 case ".docx":
-                    iconUri = "pack://application:,,,/Images/wordDocx.png"; // Word document icon
+                    iconUri = "pack://application:,,,/Images/wordDocx.png"; // Icon for Word documents
                     break;
                 case ".txt":
-                    iconUri = "pack://application:,,,/Images/txt.png"; // Text file icon
+                    iconUri = "pack://application:,,,/Images/txt.png"; // Icon for text files
                     break;
                 default:
-                    iconUri = "pack://application:,,,/Images/default.png"; // Default icon for unsupported file types
+                    iconUri = "pack://application:,,,/Images/default.png"; // Default icon
                     break;
             }
 
-            // Return the BitmapImage created from the icon URI
-            return new BitmapImage(new Uri(iconUri));
+            return new BitmapImage(new Uri(iconUri)); // Create and return the BitmapImage
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Validates the form fields and submits the report if all fields are valid.
+        /// Handles the submission of a new report after validating the input fields.
         /// </summary>
         private void SubmitBtn_Click(object sender, RoutedEventArgs e)
         {
-            Validation validation = new Validation(); // Initialize the validation class
+            var location = LocationTextBox.Text.Trim(); // Retrieve location input
+            var category = (CategoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(); // Retrieve selected category
+            var issueDescription = new TextRange(IssueDescriptionRichTextBox.Document.ContentStart, IssueDescriptionRichTextBox.Document.ContentEnd).Text.Trim(); // Retrieve issue description
+            var selectedPriority = (PriorityComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(); // Retrieve selected priority
+            var dateOfIssue = DateOfIssuePicker.SelectedDate; // Retrieve selected date of issue
 
-            // Retrieve input values from the form
-            var location = LocationTextBox.Text.Trim();
-            var category = (CategoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            var categoryIndex = CategoryComboBox.SelectedIndex;
-            var issueDescription = new TextRange(IssueDescriptionRichTextBox.Document.ContentStart, IssueDescriptionRichTextBox.Document.ContentEnd).Text.Trim();
+            PriorityLevel priorityLevel;
+            bool isPriorityValid = Enum.TryParse(selectedPriority, out priorityLevel); // Validate priority
+            PriorityError.Visibility = isPriorityValid ? Visibility.Collapsed : Visibility.Visible; // Show or hide priority error
+            PriorityError.Text = isPriorityValid ? "" : "Please select a valid priority."; // Set priority error text
 
-            // Clear any previous error messages
-            ClearErrorMessages();
-
-            // Validate the input fields
-            var validationResults = new List<(bool, TextBlock, string)>
+            // Validation logic for input fields
+            var validationErrors = new List<(bool IsValid, TextBlock ErrorControl, string ErrorMessage)>
             {
-                (validation.ValidateLocation(location), LocationError, "Location cannot be empty."), // Validate location
-                (validation.ValidateCategory(categoryIndex), CategoryError, "Please select a category."), // Validate category
-                (validation.ValidateIssueDescription(issueDescription), IssueDescriptionError, "Issue description must be less than 50 words.") // Validate description length
+                (!string.IsNullOrWhiteSpace(location), LocationError, "Location cannot be empty."),
+                (CategoryComboBox.SelectedIndex >= 0, CategoryError, "Please select a valid category."),
+                (!string.IsNullOrWhiteSpace(issueDescription), IssueDescriptionError, "Description cannot be empty."),
+                (isPriorityValid, PriorityError, "Please select a valid priority."),
+                (dateOfIssue.HasValue, DateOfIssueError, "Please select a valid date.")
             };
 
-            // Check if any validation failed and display corresponding error messages
-            if (validationResults.Any(result => !result.Item1))
-            {
-                validationResults.Where(result => !result.Item1).ToList()
-                                 .ForEach(result => { result.Item2.Text = result.Item3; result.Item2.Visibility = Visibility.Visible; });
-                return;
-            }
+            var isValid = validationErrors.All(v => v.IsValid); // Check if all validations pass
 
-            // Create a new report and add it to the report list if validation passed
+            validationErrors.ForEach(v =>
+            {
+                v.ErrorControl.Text = v.IsValid ? "" : v.ErrorMessage; // Set error message for invalid fields
+                v.ErrorControl.Visibility = v.IsValid ? Visibility.Collapsed : Visibility.Visible; // Show or hide error messages
+            });
+
+            if (!isValid) return; // Stop submission if validation fails
+
             var newReport = new ReportIssue
             {
+                RequestID = $"REQ{reportCounter++.ToString("D3")}", // Generate unique RequestID
                 Location = location,
                 Category = category,
                 IssueDescription = issueDescription,
-                Attachments = new List<string>(attachments) // Copy the attachments
+                DateSubmitted = DateTime.Now,
+                DateOfIssue = dateOfIssue.Value,
+                Status = "Pending",
+                Attachments = new ObservableCollection<string>(attachments),
+                Priority = priorityLevel
             };
 
-            // Add the new report to the stored reports
-            reportIssues.Add(newReport);
+            reportIssues.Add(newReport); // Add the new report to the collection
+            ClearForm(); // Clear the form inputs
 
-            // Clear the form after submission
-            ClearForm();
-
-            // Show a success window (celebration)
-            new CelebrationWindow().ShowDialog();
+            var celebrationWindow = new CelebrationWindow(); // Show celebration window
+            celebrationWindow.ShowDialog();
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Clears the form fields and resets the progress bar.
+        /// Clears all input fields and resets the form.
         /// </summary>
         private void ClearForm()
         {
-            // Clear input fields
-            LocationTextBox.Clear();
-            CategoryComboBox.SelectedIndex = -1;
-            IssueDescriptionRichTextBox.Document.Blocks.Clear();
-            ImagePanel.Children.Clear();
+            LocationTextBox.Clear(); // Clear location input
+            CategoryComboBox.SelectedIndex = -1; // Reset category selection
+            PriorityComboBox.SelectedIndex = -1; // Reset priority selection
+            IssueDescriptionRichTextBox.Document.Blocks.Clear(); // Clear issue description
+            DateOfIssuePicker.SelectedDate = null; // Reset date of issue
+            ImagePanel.Children.Clear(); // Clear attachment display
             attachments.Clear(); // Clear the attachments list
 
-            // Reset the progress bar
-            ResetProgress();
+            ResetProgress(); // Reset progress bar
+            ClearErrorMessages(); // Clear error messages
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Updates the progress bar based on the number of completed fields.
+        /// Updates the progress bar based on completed form steps.
         /// </summary>
         private void UpdateProgress()
         {
-            // Calculate the number of completed fields (location, category, description, and attachments)
-            var completedSteps = new[]
+            var completedSteps = new bool[]
             {
-                !string.IsNullOrWhiteSpace(LocationTextBox.Text), // Location entered
-                CategoryComboBox.SelectedIndex != -1, // Category selected
-                !string.IsNullOrWhiteSpace(new TextRange(IssueDescriptionRichTextBox.Document.ContentStart, IssueDescriptionRichTextBox.Document.ContentEnd).Text), // Description entered
-                attachments.Any() // Attachments added
-            }.Count(step => step); // Count how many steps are completed
+                !string.IsNullOrWhiteSpace(LocationTextBox.Text), // Check location input
+                CategoryComboBox.SelectedIndex != -1, // Check category selection
+                !string.IsNullOrWhiteSpace(new TextRange(IssueDescriptionRichTextBox.Document.ContentStart, IssueDescriptionRichTextBox.Document.ContentEnd).Text), // Check issue description
+                PriorityComboBox.SelectedIndex != -1, // Check priority selection
+                attachments.Count > 0, // Check attachments
+                DateOfIssuePicker.SelectedDate.HasValue // Check date of issue selection
+            }.Count(step => step);
 
-            // Calculate the progress percentage
-            var progressPercentage = (completedSteps * 100) / 4;
-            ProgressBar.Value = progressPercentage; // Set progress bar value
-
-            // Update engagement label based on progress
-            EngagementLabel.Text = progressPercentage >= 100
-                ? "You're all set! Just submit the report."
-                : $"You've completed {progressPercentage}% of the report.";
-
-            EngagementLabel.Visibility = Visibility.Visible; // Show the engagement label
-        }
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------//
-
-        /// <summary>
-        /// Handles text change events and hides the error message.
-        /// </summary>
-        private void LocationTextBox_TextChanged(object sender, TextChangedEventArgs e) => HandleTextBoxChanged(LocationError);
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------//
-
-        /// <summary>
-        /// Handles selection change in the category ComboBox and hides the error message.
-        /// </summary>
-        private void CategoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => HandleSelectionChanged(CategoryError);
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------//
-
-        /// <summary>
-        /// Handles text change in the issue description and hides the error message.
-        /// </summary>
-        private void IssueDescriptionRichTextBox_TextChanged(object sender, TextChangedEventArgs e) => HandleTextBoxChanged(IssueDescriptionError);
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------//
-
-        /// <summary>
-        /// Hides error labels when the user corrects input in a text box.
-        /// </summary>
-        private void HandleTextBoxChanged(TextBlock errorLabel)
-        {
-            UpdateProgress(); // Update the progress bar
-            errorLabel.Visibility = Visibility.Collapsed; // Hide the error message
-        }
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------//
-
-        /// <summary>
-        /// Hides error labels when the user corrects input in a selection field.
-        /// </summary>
-        private void HandleSelectionChanged(TextBlock errorLabel)
-        {
-            UpdateProgress(); // Update the progress bar
-            errorLabel.Visibility = Visibility.Collapsed; // Hide the error message
-        }
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------//
-
-        /// <summary>
-        /// Clears all error messages on the form.
-        /// </summary>
-        private void ClearErrorMessages()
-        {
-            LocationError.Visibility = Visibility.Collapsed;
-            CategoryError.Visibility = Visibility.Collapsed;
-            IssueDescriptionError.Visibility = Visibility.Collapsed;
+            ProgressBar.Value = (completedSteps * 100) / 6; // Calculate progress percentage
+            EngagementLabel.Text = ProgressBar.Value == 100 ? "You're all set! Just submit the report." : $"You've completed {ProgressBar.Value}% of the report."; // Update engagement label
+            EngagementLabel.Visibility = Visibility.Visible; // Show engagement label
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -326,43 +271,69 @@ namespace ST10029256_PROG7312
         /// </summary>
         private void ResetProgress()
         {
-            ProgressBar.Value = 0; // Reset the progress bar value
-            EngagementLabel.Visibility = Visibility.Collapsed; // Hide the engagement label
+            ProgressBar.Value = 0; // Reset progress value
+            EngagementLabel.Visibility = Visibility.Collapsed; // Hide engagement label
             ClearErrorMessages(); // Clear all error messages
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Handles the GotFocus event for the issue description RichTextBox.
+        /// Clears all error messages on the form.
         /// </summary>
+        private void ClearErrorMessages()
+        {
+            LocationError.Visibility = Visibility.Collapsed; // Hide location error
+            CategoryError.Visibility = Visibility.Collapsed; // Hide category error
+            IssueDescriptionError.Visibility = Visibility.Collapsed; // Hide description error
+            PriorityError.Visibility = Visibility.Collapsed; // Hide priority error
+        }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        private void LocationTextBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateProgress(); // Update progress on location change
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+        private void CategoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateProgress(); // Update progress on category change
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        private void IssueDescriptionRichTextBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateProgress(); // Update progress on description change
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
         private void IssueDescriptionRichTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            // Check if the text box is empty
-            var text = new TextRange(IssueDescriptionRichTextBox.Document.ContentStart, IssueDescriptionRichTextBox.Document.ContentEnd).Text;
-
-            // Hide placeholder text when the user starts typing
-            if (string.IsNullOrWhiteSpace(text))
+            var text = new TextRange(IssueDescriptionRichTextBox.Document.ContentStart, IssueDescriptionRichTextBox.Document.ContentEnd).Text; // Retrieve current text
+            if (string.IsNullOrWhiteSpace(text)) // Check if text is empty
             {
-                PlaceholderTextBlock.Visibility = Visibility.Collapsed;
+                PlaceholderTextBlock.Visibility = Visibility.Collapsed; // Hide placeholder
             }
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
-        /// <summary>
-        /// Handles the LostFocus event for the issue description RichTextBox.
-        /// </summary>
         private void IssueDescriptionRichTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Check if the text box is empty after losing focus
-            var text = new TextRange(IssueDescriptionRichTextBox.Document.ContentStart, IssueDescriptionRichTextBox.Document.ContentEnd).Text;
-
-            // Show placeholder text if the text box is empty
-            if (string.IsNullOrWhiteSpace(text))
+            var text = new TextRange(IssueDescriptionRichTextBox.Document.ContentStart, IssueDescriptionRichTextBox.Document.ContentEnd).Text; // Retrieve current text
+            if (string.IsNullOrWhiteSpace(text)) // Check if text is empty
             {
-                PlaceholderTextBlock.Visibility = Visibility.Visible;
+                PlaceholderTextBlock.Visibility = Visibility.Visible; // Show placeholder
             }
+        }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        private void PriorityComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateProgress(); // Update progress on priority change
+        }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        private void DateOfIssuePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateProgress(); // Update progress on date change
         }
     }
 }//------------------------------------------------------------------ENF OF FILE----------------------------------------------------------------------//

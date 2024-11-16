@@ -61,12 +61,24 @@
     <Compile Include="CelebrationWindow2.xaml.cs">
       <DependentUpon>CelebrationWindow2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\AVLTree.cs" />
+    <Compile Include="Classes\BinarySearchTree.cs" />
     <Compile Include="Classes\FileIconConverter.cs" />
     <Compile Include="Classes\FileNameConverter.cs" />
     <Compile Include="Classes\FileTypeToImageConverter.cs" />
+    <Compile Include="Classes\Graph.cs" />
+    <Compile Include="Classes\GraphTransversal.cs" />
     <Compile Include="Classes\LocalEvent.cs" />
+    <Compile Include="Classes\MinHeap.cs" />
+    <Compile Include="Classes\MinimumSpanningTree.cs" />
     <Compile Include="Classes\ObservableCollectionExtensions.cs" />
+    <Compile Include="Classes\PriorityLevel.cs" />
+    <Compile Include="Classes\RedBlackTree.cs" />
+    <Compile Include="Classes\RedBlackTreeNode.cs" />
     <Compile Include="Classes\ReportIssue.cs" />
+    <Compile Include="EditRequest.xaml.cs">
+      <DependentUpon>EditRequest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EventsAndAnnouncements.xaml.cs">
       <DependentUpon>EventsAndAnnouncements.xaml</DependentUpon>
     </Compile>
@@ -80,12 +92,19 @@
     <Compile Include="ReportIssuesDisplay.xaml.cs">
       <DependentUpon>ReportIssuesDisplay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ServiceRequestStatusDisplay.xaml.cs">
+      <DependentUpon>ServiceRequestStatusDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\EventsViewModel.cs" />
     <Page Include="CelebrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CelebrationWindow2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditRequest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -114,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ReportIssuesDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ServiceRequestStatusDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +202,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\WhiteBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ServiceBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ServiceDisplayBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\EditPage.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

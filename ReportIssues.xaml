@@ -116,6 +116,26 @@
                     <!-- Error Message for Category -->
                     <TextBlock x:Name="CategoryError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0,0,0,10"/>
 
+                    <!-- Date of Issue Section -->
+                    <TextBlock Text="📅 Date of Issue" FontSize="14" FontWeight="Bold" Foreground="#333" VerticalAlignment="Center"
+                               HorizontalAlignment="Left" Margin="0,0,0,5"/>
+                    <DatePicker x:Name="DateOfIssuePicker" Width="600" Height="35" BorderBrush="#4CA1AF" BorderThickness="2" 
+                                Margin="0,0,0,5" SelectedDateChanged="DateOfIssuePicker_SelectedDateChanged"/>
+                    <!-- Error Message for Date of Issue -->
+                    <TextBlock x:Name="DateOfIssueError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0,0,0,10"/>
+
+
+                    <!-- Priority Section -->
+                    <TextBlock Text="⚠️ Priority" FontSize="14" FontWeight="Bold" Foreground="#333" VerticalAlignment="Center"
+                               HorizontalAlignment="Left" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="PriorityComboBox" Width="600" Height="35" BorderBrush="#4CA1AF" BorderThickness="2" Padding="5" Margin="0,0,0,5" SelectionChanged="PriorityComboBox_SelectionChanged">
+                        <ComboBoxItem Content="High"/>
+                        <ComboBoxItem Content="Medium"/>
+                        <ComboBoxItem Content="Low"/>
+                    </ComboBox>
+                    <!-- Error Message for Priority (if needed) -->
+                    <TextBlock x:Name="PriorityError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0,0,0,10"/>
+
                     <!-- Issue Description -->
                     <Grid>
                         <TextBlock Text="📝 Issue Description" FontSize="14" FontWeight="Bold" Foreground="#333"
@@ -155,7 +175,7 @@
 
                         <!-- Submit Button -->
                         <Button Width="91" Height="40" Foreground="White" Cursor="Hand" Click="SubmitBtn_Click"
-                                VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="2" Margin="0,0,0,0">
+                                VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Column="2">
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                     <GradientStop Color="#28A745" Offset="0.0"/>

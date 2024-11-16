@@ -1,66 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq; 
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace ST10029256_PROG7312
 {
     /// <summary>
-    /// Interaction logic for ReportIssuesDisplay.xaml
+    /// ReportIssuesDisplay UserControl displays a collection of reports in a list view.
+    /// It provides navigation back to the ReportIssues page.
     /// </summary>
     public partial class ReportIssuesDisplay : UserControl
     {
-
-        private List<ReportIssue> reportIssues; // List to hold the reports
+        private ObservableCollection<ReportIssue> reportCollection; // Collection of reports to be displayed
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Initializes the ReportIssuesDisplay and loads the stored reports.
+        /// Initializes the ReportIssuesDisplay with a collection of reports.
         /// </summary>
-        public ReportIssuesDisplay(List<ReportIssue> storedReports)
+        /// <param name="reports">The collection of reports to display.</param>
+        public ReportIssuesDisplay(ObservableCollection<ReportIssue> reports)
         {
-            InitializeComponent();
-            reportIssues = storedReports; // Assign the list of reports to the local field
-            LoadReports(); // Load the reports into the ItemsControl
+            InitializeComponent(); // Initialize UI components
+            reportCollection = reports; // Assign the collection to the local field
+            LoadReports(); // Load the reports into the UI
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Loads and binds the reports to the ItemsControl, or displays a "No Reports" message if none exist.
+        /// Loads the reports into the ListView. Displays a message if no reports are available.
         /// </summary>
         private void LoadReports()
         {
-            // Check if there are any reports
-            var hasReports = reportIssues?.Any() ?? false;
-
-            if (hasReports)
+            if (reportCollection.Count > 0) // Check if there are reports to display
             {
-                // If there are reports, bind the list to the ItemsControl
-                ReportsListView.ItemsSource = reportIssues;
-                NoReportsMessage.Visibility = Visibility.Collapsed; // Hide "No Reports" message
+                ReportsListView.ItemsSource = reportCollection; // Bind the collection to the ListView
+                NoReportsMessage.Visibility = Visibility.Collapsed; // Hide the "No Reports" message
             }
             else
             {
-                // If no reports, clear the ItemsControl and show the "No Reports" message
-                ReportsListView.ItemsSource = null; // Clear the ItemsSource
-                NoReportsMessage.Visibility = Visibility.Visible; // Show "No Reports" message
+                NoReportsMessage.Visibility = Visibility.Visible; // Show the "No Reports" message
             }
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
 
         /// <summary>
-        /// Event handler for the "Back to Report" button to navigate back to the ReportIssues page.
+        /// Handles the Back button click event to navigate back to the ReportIssues page.
         /// </summary>
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var mainWindow = Application.Current.MainWindow as MainWindow; // Get the main window instance
             if (mainWindow != null)
             {
-                mainWindow.MainFrame.Content = new ReportIssues(reportIssues); // Navigate back
+                mainWindow.MainFrame.Content = new ReportIssues(mainWindow.StoredReports); // Navigate back to the ReportIssues page
             }
         }
     }

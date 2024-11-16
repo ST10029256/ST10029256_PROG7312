@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ST10029256_PROG7312.Classes
 {
@@ -21,14 +21,14 @@ namespace ST10029256_PROG7312.Classes
         // A brief description of the event, outlining its details
         public string Description { get; set; }
 
-        // A list of file attachments related to the event, such as images or documents
-        public List<string> Attachments { get; set; }
+        // A collection of file attachments related to the event, such as images or documents
+        public ObservableCollection<string> Attachments { get; set; }
 
-        // Constructor that initializes the Attachments list
+        // Constructor that initializes the Attachments collection
         public LocalEvent()
         {
-            // Initialize the Attachments list to prevent null reference issues when adding files
-            Attachments = new List<string>();
+            // Initialize the Attachments collection to prevent null reference issues
+            Attachments = new ObservableCollection<string>();
         }
     }
 }//------------------------------------------------------------------ENF OF FILE----------------------------------------------------------------------//
