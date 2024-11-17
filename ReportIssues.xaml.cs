@@ -2,12 +2,12 @@
 using ST10029256_PROG7312.Classes;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel; 
-using System.IO; 
-using System.Linq; 
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls; 
-using System.Windows.Documents; 
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 
 namespace ST10029256_PROG7312
@@ -26,12 +26,66 @@ namespace ST10029256_PROG7312
 
         /// <summary>
         /// Initializes the ReportIssues UserControl with a collection of reports.
+        /// Adds sample data if the collection is empty.
         /// </summary>
         /// <param name="reports">Collection of existing reports.</param>
         public ReportIssues(ObservableCollection<ReportIssue> reports)
         {
             InitializeComponent(); // Initialize the component
             reportIssues = reports ?? new ObservableCollection<ReportIssue>(); // Assign the collection or create a new one
+
+            // Add sample data if the collection is empty
+            if (!reportIssues.Any())
+            {
+                AddSampleData();
+            }
+        }
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------//
+
+        /// <summary>
+        /// Adds sample data to the reportIssues collection for demonstration purposes.
+        /// </summary>
+        private void AddSampleData()
+        {
+            reportIssues.Add(new ReportIssue
+            {
+                RequestID = $"REQ{reportCounter++.ToString("D3")}",
+                Location = "Main Street",
+                Category = "Road Issue",
+                IssueDescription = "Potholes on the road causing damage to vehicles.",
+                DateSubmitted = DateTime.Now.AddDays(-3),
+                DateOfIssue = DateTime.Now.AddDays(-5),
+                Status = "Pending",
+                Attachments = new ObservableCollection<string> { "pothole_image.jpg" },
+                Priority = PriorityLevel.High
+            });
+
+            reportIssues.Add(new ReportIssue
+            {
+                RequestID = $"REQ{reportCounter++.ToString("D3")}",
+                Location = "Central Park",
+                Category = "Park Maintenance",
+                IssueDescription = "Swing in the play area is broken and unsafe for children.",
+                DateSubmitted = DateTime.Now.AddDays(-2),
+                DateOfIssue = DateTime.Now.AddDays(-4),
+                Status = "In Progress",
+                Attachments = new ObservableCollection<string> { "swing_broken.jpg" },
+                Priority = PriorityLevel.Medium
+            });
+
+            reportIssues.Add(new ReportIssue
+            {
+                RequestID = $"REQ{reportCounter++.ToString("D3")}",
+                Location = "Broadway Avenue",
+                Category = "Lighting",
+                IssueDescription = "Streetlights are not functioning, making the area unsafe at night.",
+                DateSubmitted = DateTime.Now.AddDays(-1),
+                DateOfIssue = DateTime.Now.AddDays(-3),
+                Status = "Completed",
+                Attachments = new ObservableCollection<string> { "streetlights_out.jpg" },
+                Priority = PriorityLevel.Low
+            });
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//

@@ -43,8 +43,17 @@ namespace ST10029256_PROG7312.ViewModels
         public EventsViewModel()
         {
             // Initialize collections and default categories
-            AvailableEvents = new ObservableCollection<LocalEvent>();
+            AvailableEvents = new ObservableCollection<LocalEvent>
+            {
+                // Example pre-populated events
+                new LocalEvent { Name = "Tech Conference 2024", Category = "Conference", Date = DateTime.Now.AddMonths(1), Location = "Tech Hub" },
+                new LocalEvent { Name = "Community Picnic", Category = "Community Meeting", Date = DateTime.Now.AddDays(15), Location = "Central Park" },
+                new LocalEvent { Name = "Annual Music Festival", Category = "Festival", Date = DateTime.Now.AddMonths(2), Location = "City Square" }
+            };
+
             EventsByDate = new SortedDictionary<DateTime, List<LocalEvent>>();
+
+            // Initialize and ensure unique categories
             Categories = new ObservableCollection<string>
             {
                 "Select a Category",
@@ -56,10 +65,25 @@ namespace ST10029256_PROG7312.ViewModels
                 "Sports Event",
                 "Other"
             };
+
+            UniqueCategories = new HashSet<string>(Categories);
+
+            // Initialize collections for filtered and recommended events
             FilteredEvents = new ObservableCollection<LocalEvent>();
             RecommendedEvents = new ObservableCollection<LocalEvent>();
+
+            // Initialize search patterns frequency tracker
             SearchPatternFrequency = new Dictionary<string, int>();
-            UniqueCategories = new HashSet<string>(Categories); // Ensures no duplicate categories
+
+            // Prepopulate EventsByDate for initial events
+            foreach (var ev in AvailableEvents)
+            {
+                if (!EventsByDate.ContainsKey(ev.Date))
+                {
+                    EventsByDate[ev.Date] = new List<LocalEvent>();
+                }
+                EventsByDate[ev.Date].Add(ev);
+            }
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------//
