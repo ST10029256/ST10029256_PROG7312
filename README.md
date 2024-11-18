@@ -175,6 +175,8 @@ This section lists all submitted service requests, showing:
 - **Example in Use**:  
   When a user searches for related requests by category or date, the application traverses the Red-Black Tree to retrieve and display matching entries efficiently.
 
+  -----------------------------------------------------------------
+
 ### 2. 🔺 **Heaps**
 - **Purpose and Role**:  
   Focuses on prioritizing service requests based on their urgency, ensuring high-priority issues receive prompt attention.
@@ -198,6 +200,44 @@ This section lists all submitted service requests, showing:
 These advanced data structures—**Red-Black Trees** for sorted management and **Heaps** for prioritization—form the backbone of the application's efficiency. They ensure service requests are managed, displayed, and retrieved with optimal speed and accuracy, providing a robust system for both citizens and administrators.
 
 -----------------------------------------------------------------
+
+### 🌐 Graphs
+- **Purpose and Role**:  
+  Graphs are used to represent relationships and connections between various entities, such as municipal service locations or event venues.
+
+- **Dynamic Connections**:  
+  The graph structure efficiently models nodes (e.g., locations) and edges (e.g., routes or relationships), enabling dynamic connections and navigation between related entities.
+
+- **Optimized Pathfinding**:  
+  Provides a foundation for implementing algorithms like Dijkstra's or A* for finding the shortest paths between locations.
+
+- **Real-Time Analysis**:  
+  Allows real-time analysis of connections, such as finding the nearest event venue to a user or identifying the shortest route for maintenance teams.
+
+- **Example in Use**:  
+  When a user requests the nearest event or service location, the application leverages the graph to traverse connected nodes and determine the optimal path or closest match.
+
+-----------------------------------------------------------------
+
+### 🔍 Graph Traversal
+- **Purpose and Role**:  
+  Graph traversal methods, such as Depth-First Search (DFS), are employed to navigate through the graph structure efficiently.
+
+- **Efficient Querying**:  
+  Enables the application to query relationships, such as finding all connected service points or identifying isolated nodes.
+
+- **Optimized Resource Allocation**:  
+  BFS is particularly useful for exploring all nodes at the same distance, making it ideal for tasks like scheduling or assigning resources to clustered locations.
+
+- **Versatile Use Cases**:  
+  - Identifying all events within a certain distance of a user’s location.
+  - Finding isolated issues or venues needing urgent attention.
+  - Determining paths for resource allocation or repair teams.
+
+- **Example in Use**:  
+  If a user searches for all service requests within a certain radius, BFS is used to explore connected nodes and gather relevant data efficiently.
+
+------------------------------------------------------------------
 
 ## ✅ Conclusion
 
