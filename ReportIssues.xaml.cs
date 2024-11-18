@@ -51,39 +51,78 @@ namespace ST10029256_PROG7312
             reportIssues.Add(new ReportIssue
             {
                 RequestID = $"REQ{reportCounter++.ToString("D3")}",
-                Location = "Main Street",
-                Category = "Road Issue",
-                IssueDescription = "Potholes on the road causing damage to vehicles.",
-                DateSubmitted = DateTime.Now.AddDays(-3),
-                DateOfIssue = DateTime.Now.AddDays(-5),
+                Location = "Elm Street",
+                Category = "Utilities",
+                IssueDescription = "Water leakage from a broken pipe, flooding the street.",
+                DateSubmitted = DateTime.Now.AddDays(-6),
+                DateOfIssue = DateTime.Now.AddDays(-8),
                 Status = "Pending",
-                Attachments = new ObservableCollection<string> { "pothole_image.jpg" },
+                Attachments = new ObservableCollection<string> { "water_leak.jpg" },
                 Priority = PriorityLevel.High
             });
 
             reportIssues.Add(new ReportIssue
             {
                 RequestID = $"REQ{reportCounter++.ToString("D3")}",
-                Location = "Central Park",
-                Category = "Park Maintenance",
-                IssueDescription = "Swing in the play area is broken and unsafe for children.",
+                Location = "Oak Lane",
+                Category = "Roads",
+                IssueDescription = "Traffic signal malfunctioning, causing confusion at the junction.",
                 DateSubmitted = DateTime.Now.AddDays(-2),
                 DateOfIssue = DateTime.Now.AddDays(-4),
                 Status = "In Progress",
-                Attachments = new ObservableCollection<string> { "swing_broken.jpg" },
+                Attachments = new ObservableCollection<string> { "traffic_signal.jpg" },
                 Priority = PriorityLevel.Medium
             });
 
             reportIssues.Add(new ReportIssue
             {
                 RequestID = $"REQ{reportCounter++.ToString("D3")}",
-                Location = "Broadway Avenue",
-                Category = "Lighting",
-                IssueDescription = "Streetlights are not functioning, making the area unsafe at night.",
+                Location = "Pine Street",
+                Category = "Sanitation",
+                IssueDescription = "Overflowing garbage bins attracting pests.",
+                DateSubmitted = DateTime.Now.AddDays(-3),
+                DateOfIssue = DateTime.Now.AddDays(-5),
+                Status = "Pending",
+                Attachments = new ObservableCollection<string> { "garbage_overflow.jpg" },
+                Priority = PriorityLevel.High
+            });
+
+            reportIssues.Add(new ReportIssue
+            {
+                RequestID = $"REQ{reportCounter++.ToString("D3")}",
+                Location = "River Road",
+                Category = "Utilities",
+                IssueDescription = "Power outage affecting multiple households in the area.",
+                DateSubmitted = DateTime.Now.AddDays(-4),
+                DateOfIssue = DateTime.Now.AddDays(-6),
+                Status = "Pending",
+                Attachments = new ObservableCollection<string> { "power_outage.jpg" },
+                Priority = PriorityLevel.High
+            });
+
+            reportIssues.Add(new ReportIssue
+            {
+                RequestID = $"REQ{reportCounter++.ToString("D3")}",
+                Location = "Lakeside Boulevard",
+                Category = "Sanitation",
+                IssueDescription = "Foul odor from a clogged drainage system.",
                 DateSubmitted = DateTime.Now.AddDays(-1),
                 DateOfIssue = DateTime.Now.AddDays(-3),
+                Status = "In Progress",
+                Attachments = new ObservableCollection<string> { "clogged_drain.jpg" },
+                Priority = PriorityLevel.Medium
+            });
+
+            reportIssues.Add(new ReportIssue
+            {
+                RequestID = $"REQ{reportCounter++.ToString("D3")}",
+                Location = "Hilltop Drive",
+                Category = "Other",
+                IssueDescription = "Graffiti on public property creating an unpleasant view.",
+                DateSubmitted = DateTime.Now.AddDays(-2),
+                DateOfIssue = DateTime.Now.AddDays(-4),
                 Status = "Completed",
-                Attachments = new ObservableCollection<string> { "streetlights_out.jpg" },
+                Attachments = new ObservableCollection<string> { "graffiti.jpg" },
                 Priority = PriorityLevel.Low
             });
         }
