@@ -44,11 +44,35 @@ namespace ST10029256_PROG7312.ViewModels
         {
             // Initialize collections and default categories
             AvailableEvents = new ObservableCollection<LocalEvent>
+{
+            // Example pre-populated events
+            new LocalEvent
             {
-                // Example pre-populated events
-                new LocalEvent { Name = "Tech Conference 2024", Category = "Conference", Date = DateTime.Now.AddMonths(1), Location = "Tech Hub" },
-                new LocalEvent { Name = "Community Picnic", Category = "Community Meeting", Date = DateTime.Now.AddDays(15), Location = "Central Park" },
-                new LocalEvent { Name = "Annual Music Festival", Category = "Festival", Date = DateTime.Now.AddMonths(2), Location = "City Square" }
+                Name = "Tech Conference 2024",
+                Category = "Conference",
+                Date = DateTime.Now.AddMonths(1),
+                Location = "Tech Hub",
+                Description = "A premier gathering of technology enthusiasts, industry leaders, and innovators to discuss the latest trends in tech.",
+                Attachments = new ObservableCollection<string> { "tech_conference_brochure.pdf" }
+            },
+            new LocalEvent
+            {
+                Name = "Community Picnic",
+                Category = "Community Meeting",
+                Date = DateTime.Now.AddDays(15),
+                Location = "Central Park",
+                Description = "An outdoor event for families and residents to enjoy food, games, and community bonding activities.",
+                Attachments = new ObservableCollection < string > { "picnic_flyer.jpg" }
+            },
+            new LocalEvent
+            {
+                Name = "Annual Music Festival",
+                Category = "Festival",
+                Date = DateTime.Now.AddMonths(2),
+                Location = "City Square",
+                Description = "A vibrant celebration of music with performances from local and international artists in a lively outdoor setting.",
+                Attachments = new ObservableCollection < string > { "music_festival_poster.jpg" }
+            }
             };
 
             EventsByDate = new SortedDictionary<DateTime, List<LocalEvent>>();
